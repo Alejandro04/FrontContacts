@@ -4,6 +4,7 @@
     <p class="app_title">Contacts</p>
 
     <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
+    <div v-if="msg_delete" class="success">Contact out!</div>
     <table class="table">
       <thead>
         <tr>
@@ -17,8 +18,16 @@
         <tr v-for="item in contacts" :key="item.id">
           <td>{{ item.name }}</td>
           <td>{{ item.number }}</td>
-          <td> <a href @click="updateContact(item.id)"><i class="fa fa-edit"></i></a></td>
-          <td> <a href=""><i class="fa fa-trash"></i></a></td>
+          <td>
+            <button class="btn btn-success" @click="updateContact(item.id)">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-danger" @click="deleteContact(item.id)">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -65,12 +74,28 @@ export default {
     },
     updateContact(id) {
       this.$router.push(`contacts/${id}`);
+    },
+    deleteContact(id) {
+      axios
+        .delete(`http://localhost:3000/contacts/${id}`, {})
+        .then(response => {
+          this.contacts.splice(id, 1);
+          this.msg_delete = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };
 </script>
 
 <style>
+.success{
+    font-size: 20px;
+    color: green;
+}
+
 @media screen and (min-width: 480px) {
 }
 
