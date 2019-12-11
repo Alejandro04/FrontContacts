@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Contact from '../components/Contact'
 import saveContact from '../components/saveContact'
+import updateContact from '../components/updateContact'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/contacts/new',
     name: 'saveContacts',
     component: saveContact
+  },
+  {
+    path: '/contacts/:id',
+    name: 'updateContacts',
+    component: updateContact
   },
 ]
 

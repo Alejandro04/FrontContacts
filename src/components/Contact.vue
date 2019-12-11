@@ -5,7 +5,17 @@
 
     <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
     <div>
-      <v-client-table :columns="columns" :data="tableData" :options="options"></v-client-table>
+      <v-client-table :columns="columns" :data="tableData" :options="options">
+        <a
+            class="check"
+            slot="uri"
+            slot-scope="props"
+            @click="updateContact(props.row.uri, props.row.name, props.row.number)"
+          >
+            <i class="fas fa-check"></i>
+          </a>
+
+      </v-client-table>
     </div>
   </div>
 </template>
@@ -30,7 +40,7 @@ export default {
       appointments: [],
       isLoading: false,
       fullPage: true,
-      columns: ["nombre", "telefono"],
+      columns: ["id", "nombre", "telefono", "actualizar"],
       tableData: [],
       options: {
         texts: {
@@ -60,6 +70,7 @@ export default {
         console.log(response);
         response.data.forEach(element => {
           this.tableData.push({
+            id: element._id,
             nombre: element.name,
             telefono: element.number,
           });
@@ -68,6 +79,9 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    updateContact(uri, name, number){
+      this.$router.push(uri);
     }
   }
 };
