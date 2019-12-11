@@ -4,19 +4,24 @@
     <p class="app_title">Contacts</p>
 
     <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
-    <div>
-      <v-client-table :columns="columns" :data="tableData" :options="options">
-        <a
-            class="check"
-            slot="uri"
-            slot-scope="props"
-            @click="updateContact(props.row.uri, props.row.name, props.row.number)"
-          >
-            <i class="fas fa-check"></i>
-          </a>
-
-      </v-client-table>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Update</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in contacts" :key="item.id">
+          <td>{{ item.name }}</td>
+          <td>{{ item.number }}</td>
+          <td> <a href @click="updateContact(item.id)"><i class="fa fa-edit"></i></a></td>
+          <td> <a href=""><i class="fa fa-trash"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -37,28 +42,7 @@ export default {
   },
   data() {
     return {
-      appointments: [],
-      isLoading: false,
-      fullPage: true,
-      columns: ["id", "nombre", "telefono", "actualizar"],
-      tableData: [],
-      options: {
-        texts: {
-          count:
-            "Mostrando {from} a {to} de {count} registros|Últimos {count} registros|Un registro",
-          first: "First",
-          last: "Last",
-          filter: "Filtro:",
-          filterPlaceholder: "fecha o servicio",
-          limit: "Registros:",
-          page: "Página:",
-          noResults: "",
-          filterBy: "Filtro por {column}",
-          loading: "Cargando...",
-          defaultOption: "Select {column}",
-          columns: "Columnas"
-        }
-      }
+      contacts: []
     };
   },
   methods: {
@@ -67,12 +51,11 @@ export default {
 
       try {
         const response = await axios.get("http://localhost:3000/contacts");
-        console.log(response);
         response.data.forEach(element => {
-          this.tableData.push({
+          this.contacts.push({
             id: element._id,
-            nombre: element.name,
-            telefono: element.number,
+            name: element.name,
+            number: element.number
           });
         });
         this.isLoading = false;
@@ -80,8 +63,8 @@ export default {
         console.error(error);
       }
     },
-    updateContact(uri, name, number){
-      this.$router.push(uri);
+    updateContact(id) {
+      this.$router.push(`contacts/${id}`);
     }
   }
 };
