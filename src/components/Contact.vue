@@ -59,7 +59,7 @@ export default {
       this.isLoading = true;
 
       try {
-        const response = await axios.get("http://localhost:3000/contacts");
+        const response = await axios.get("http://3.135.239.246/contacts");
         response.data.forEach(element => {
           this.contacts.push({
             id: element._id,
@@ -77,7 +77,7 @@ export default {
     },
     deleteContact(id) {
       axios
-        .delete(`http://localhost:3000/contacts/${id}`, {})
+        .delete(`http://3.135.239.246/contacts/${id}`, {})
         .then(response => {
           this.contacts.splice(id, 1);
           this.msg_delete = true;

@@ -42,7 +42,7 @@ export default {
       let validation = this.validation();
       if (validation == true) {
         axios
-          .post("http://localhost:3000/contacts", {
+          .post("http://3.135.239.246/contacts", {
             name: this.name,
             number: this.number
           })

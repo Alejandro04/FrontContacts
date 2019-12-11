@@ -45,7 +45,7 @@ export default {
       this.isLoading = true;
 
       try {
-        const response = await axios.get(`http://localhost:3000/contacts/${this.$route.params.id}`);
+        const response = await axios.get(`http://3.135.239.246/contacts/${this.$route.params.id}`);
         this.name = response.data.name
         this.number = response.data.number
         this.isLoading = false;
@@ -57,7 +57,7 @@ export default {
       let validation = this.validation();
       if (validation == true) {
         axios
-          .put(`http://localhost:3000/contacts/${this.$route.params.id}`, {
+          .put(`http://3.135.239.246/contacts/${this.$route.params.id}`, {
             name: this.name,
             number: this.number
           })
